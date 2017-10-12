@@ -20,7 +20,8 @@ export const isStyled = (tag, state) => {
   } else {
     return (
       (t.isMemberExpression(tag) && tag.object.name === importLocalName('default', state)) ||
-      (t.isCallExpression(tag) && tag.callee.name === importLocalName('default', state))
+      (t.isCallExpression(tag) && tag.callee.name === importLocalName('default', state)) ||
+      (t.isMemberExpression(tag) && t.isMemberExpression(tag.object) && tag.object.property.name === 'default' && tag.object.object.name === importLocalName('default', state))
     )
   }
 }
@@ -44,4 +45,3 @@ export const isHelper = (tag, state) => (
   isCSSHelper(tag, state) ||
   isKeyframesHelper(tag, state)
 )
-
